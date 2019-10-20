@@ -1,0 +1,13 @@
+{
+  "name": "spa-13cab",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/trust2065/spa-13cab.git",
+  "author": "Choco <trust2065@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@sendgrid/mail": "^6.4.0",
+    "concurrently": "^5.0.0",
+    "mailgun.js": "^2.0.1"
+  }
+}
