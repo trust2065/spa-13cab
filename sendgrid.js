@@ -1,9 +1,9 @@
 module.exports = function(mailInfo) {
   if (mailInfo) {
+    const dotenv = require("dotenv");
+    dotenv.config();
     const sgMail = require("@sendgrid/mail");
-    sgMail.setApiKey(
-      "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"
-    );
+    sgMail.setApiKey(process.env.SENDGRIDAPIKEY);
 
     // input: a@gmail.com; b@gmail.com;
     // output: [a@gmail.com, b@gmail.com]
