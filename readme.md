@@ -2,6 +2,8 @@
 
 ## Build
 
+get `.env` and put it under the root directory before you start testing!
+
 ```cmd
 yarn
 cd client
