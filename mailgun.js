@@ -1,14 +1,15 @@
 module.exports = function(mailInfo) {
   if (mailInfo) {
-    const apiKey = "9090e7fa24405c2bc65e010bc12f553e-9c988ee3-fbb39271";
+    const dotenv = require("dotenv");
+    dotenv.config();
 
     var mailgun = require("mailgun.js");
     var mg = mailgun.client({
       username: "api",
-      key: process.env.MAILGUN_API_KEY || `${apiKey}`
+      key: process.env.MAILGUNAPIKEY
     });
 
-    const sandbox = "sandboxad21c36b87cb4876a20fd80478b6a49a.mailgun.org";
+    const sandbox = process.env.MAILGUNSANDBOX;
 
     // input: a@gmail.com; b@gmail.com;
     // output: a@gmail.com,b@gmail.com
@@ -21,7 +22,7 @@ module.exports = function(mailInfo) {
         .reduce((result, v) => `${result}${v},`, "")
         .slice(0, -1);
 
-    console.log("mailInfo: ", mailInfo);
+    // console.log("mailInfo: ", mailInfo);
 
     // remove property if its value is undefined/null
     const mailProperties = JSON.parse(
