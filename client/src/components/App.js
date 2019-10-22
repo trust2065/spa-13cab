@@ -67,6 +67,7 @@ function App() {
 
   const handleModalClose = () => {
     setIsSending(false);
+    setStatus(defaultStatus);
   };
 
   const handleSubmit = e => {
