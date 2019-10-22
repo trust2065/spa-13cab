@@ -9,6 +9,7 @@ import Container from "@material-ui/core/Container";
 import TextField from "@material-ui/core/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import StatusIndicator from "./StatusIndicator";
+import validator from "email-validator";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -84,8 +85,20 @@ function App() {
       });
   };
 
+  const validateInput = value => {
+    if (!value) return true;
+    return value
+      .trim()
+      .replace(/;$/, "")
+      .replace(/^;/, "")
+      .split(";")
+      .map(v => v.trim())
+      .every(address => validator.validate(address));
+  };
+
   const handleChange = inputName => event => {
-    setInputs({ ...inputs, [inputName]: event.target.value });
+    const value = event.target.value;
+    setInputs({ ...inputs, [inputName]: value });
   };
 
   useEffect(() => {
@@ -95,6 +108,20 @@ function App() {
   }, []);
 
   const classes = useStyles();
+
+  const isInvalidInputs = {
+    from: !validateInput(inputs.from),
+    to: !validateInput(inputs.to),
+    cc: !validateInput(inputs.cc),
+    bcc: !validateInput(inputs.bcc)
+  };
+  const isSubmitEnable =
+    validateInput(inputs.from) &&
+    validateInput(inputs.to) &&
+    validateInput(inputs.cc) &&
+    validateInput(inputs.bcc);
+
+  const inputHelpText = "email format should like test@gmail.com";
 
   return (
     <>
@@ -129,6 +156,9 @@ function App() {
                     variant="outlined"
                     placeholder="your email address"
                     onChange={handleChange("from")}
+                    error={isInvalidInputs.from}
+                    helperText={isInvalidInputs.from && inputHelpText}
+                    required
                   >
                     {inputs.from}
                   </StyledTextField>
@@ -137,6 +167,9 @@ function App() {
                     variant="outlined"
                     placeholder="recipients, ex: a@gmail.com; b@gmail.com"
                     onChange={handleChange("to")}
+                    error={isInvalidInputs.to}
+                    helperText={isInvalidInputs.to && inputHelpText}
+                    required
                   >
                     {inputs.to}
                   </StyledTextField>
@@ -145,6 +178,8 @@ function App() {
                     variant="outlined"
                     placeholder="carbon copy"
                     onChange={handleChange("cc")}
+                    error={isInvalidInputs.cc}
+                    helperText={isInvalidInputs.cc && inputHelpText}
                   >
                     {inputs.cc}
                   </StyledTextField>
@@ -153,6 +188,8 @@ function App() {
                     variant="outlined"
                     placeholder="blind carbon copy"
                     onChange={handleChange("bcc")}
+                    error={isInvalidInputs.bcc}
+                    helperText={isInvalidInputs.bcc && inputHelpText}
                   >
                     {inputs.bcc}
                   </StyledTextField>
@@ -161,6 +198,7 @@ function App() {
                     variant="outlined"
                     placeholder="clear topic"
                     onChange={handleChange("subject")}
+                    required
                   >
                     {inputs.subject}
                   </StyledTextField>
@@ -171,6 +209,7 @@ function App() {
                     multiline={true}
                     rows="10"
                     onChange={handleChange("text")}
+                    required
                   >
                     {inputs.text}
                   </StyledTextField>
@@ -181,6 +220,7 @@ function App() {
                   color="primary"
                   className={classes.button}
                   endIcon={<SendIcon />}
+                  disabled={!isSubmitEnable}
                 >
                   Send
                 </Button>
