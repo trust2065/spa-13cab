@@ -14,15 +14,31 @@
     "concurrently": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mailgun.js": "^2.0.1",
-    "nodemon": "^1.19.4"
+    "mailgun.js": "^2.0.1"
   },
   "scripts": {
     "start": "concurrently \"yarn server\" \"yarn client\"",
-    "client": "cd client&&yarn start",
-    "server": "nodemon index.js"
+    "client": "cd client && yarn start",
+    "server": "node index.js",
+    "dev": "concurrently \"yarn dev-server\" \"yarn client\"",
+    "dev-server": "nodemon index.js"
   },
   "devDependencies": {
-    "eslint-plugin-react-hooks": "^2.1.2"
+    "eslint-plugin-react-hooks": "^2.1.2",
+    "nodemon": "^1.19.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all",
+      "ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version",
+      "ie 11"
+    ]
   }
 }
