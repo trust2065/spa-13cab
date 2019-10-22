@@ -47,6 +47,9 @@ const StyledTextField = withStyles(theme => ({
       "&.Mui-focused fieldset": {
         borderColor: "#eee"
       }
+    },
+    "& .MuiFormHelperText-root": {
+      fontSize: ".9rem"
     }
   }
 }))(TextField);
