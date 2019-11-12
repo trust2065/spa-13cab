@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import { baseUrl } from "../variable";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -10,19 +10,25 @@ import TextField from "@material-ui/core/TextField";
 import SendIcon from "@material-ui/icons/Send";
 import StatusIndicator from "./StatusIndicator";
 import validator from "email-validator";
+import {
+  IStatusIndicatorStatus,
+  IAppInfo,
+  IAppInputs,
+  IIsValueInputs
+} from "../Utilities/Interface";
 
 const useStyles = makeStyles(theme => ({
   root: {
     color: "#eee"
   },
+  button: {
+    margin: theme.spacing(1)
+  },
+  input: {},
   welcome: {
     color: "#585353",
     fontWeight: "bolder",
     textShadow: "1px 2px #baaaaa"
-  },
-
-  button: {
-    margin: theme.spacing(1)
   }
 }));
 
@@ -56,21 +62,21 @@ const StyledTextField = withStyles(theme => ({
 
 function App() {
   const defaultStatus = {
-    apiSuccess: null,
-    errCode: null,
-    errMsg: null
+    apiSuccess: undefined,
+    errCode: undefined,
+    errMsg: undefined
   };
-  const [info, setInfo] = useState({});
-  const [inputs, setInputs] = useState({});
-  const [status, setStatus] = useState(defaultStatus);
-  const [isSending, setIsSending] = useState(false);
+  const [info, setInfo] = useState<IAppInfo>({});
+  const [inputs, setInputs] = useState<IAppInputs>({});
+  const [status, setStatus] = useState<IStatusIndicatorStatus>(defaultStatus);
+  const [isSending, setIsSending] = useState<boolean>(false);
 
   const handleModalClose = () => {
     setIsSending(false);
     setStatus(defaultStatus);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (e) {
       e.preventDefault();
     }
@@ -89,7 +95,7 @@ function App() {
       });
   };
 
-  const validateInput = value => {
+  const validateInput = (value?: string) => {
     if (!value) return true;
     return value
       .trim()
@@ -100,7 +106,9 @@ function App() {
       .every(address => validator.validate(address));
   };
 
-  const handleChange = inputName => event => {
+  const handleChange = (inputName: string) => (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const value = event.target.value;
     setInputs({ ...inputs, [inputName]: value });
   };
@@ -113,7 +121,7 @@ function App() {
 
   const classes = useStyles();
 
-  const isInvalidInputs = {
+  const isInvalidInputs: IIsValueInputs = {
     from: !validateInput(inputs.from),
     to: !validateInput(inputs.to),
     cc: !validateInput(inputs.cc),

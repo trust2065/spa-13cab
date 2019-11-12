@@ -33,6 +33,7 @@ A few animations such as loading spinner and label scale down while focused are 
 
 Sending status modal will popup after user 'send'. Also error message will show here if anything goes wrong.
 
+- Using typescript to eliminate errors before run, and also enhance the quality of code for future maintenance.
 - Validation required, fields includes 'From', 'To', 'Subject' and 'Body'.
 - Validation email format for 'From', 'To', 'Cc' and 'Bcc' and help text shows below.
 - Support latest Firefox, Chrome and IE11.

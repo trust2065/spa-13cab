@@ -5,10 +5,11 @@ import Modal from "@material-ui/core/Modal";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import HourglassEmptyRoundedIcon from "@material-ui/icons/HourglassEmptyRounded";
+import { IStatusIndicator } from "../Utilities/Interface";
 
 function getModalStyle() {
-  const top = 50;
-  const left = 50;
+  const top: number = 50;
+  const left: number = 50;
 
   return {
     top: `${top}%`,
@@ -36,7 +37,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function StatusIndicator({ handleClose, status }) {
+const StatusIndicator: React.FC<IStatusIndicator> = ({
+  handleClose,
+  status
+}) => {
   const classes = useStyles();
   const [modalStyle] = React.useState(getModalStyle);
   const { apiSuccess, errCode, errMsg } = status;
@@ -97,9 +101,15 @@ export default function StatusIndicator({ handleClose, status }) {
       </Modal>
     </div>
   );
-}
+};
 
 StatusIndicator.propTypes = {
-  handleClose: PropTypes.func,
-  status: PropTypes.object
+  handleClose: PropTypes.func.isRequired,
+  status: PropTypes.shape({
+    apiSuccess: PropTypes.bool,
+    errCode: PropTypes.string,
+    errMsg: PropTypes.string
+  }).isRequired
 };
+
+export default StatusIndicator;
